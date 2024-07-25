@@ -1,6 +1,7 @@
 package com.example.reactor.kotlinreactor.service
 
 import com.example.reactor.kotlinreactor.dto.response.UserResponse
+import com.example.reactor.kotlinreactor.exception.UserNotFoundException
 import com.example.reactor.kotlinreactor.repository.UserRepository
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
@@ -11,5 +12,6 @@ class UserService(
 ) {
     fun getUserById(id: String): Mono<UserResponse> =
         userRepository.findById(id)
+            .switchIfEmpty(Mono.error(UserNotFoundException()))
             .map { UserResponse(it) }
 }
