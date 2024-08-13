@@ -94,7 +94,8 @@ Reactor는 선언형 프로그래밍의 일종인 함수형 프로그래밍을 �
 
 ### Coroutine
 
-Coroutine은 경량형 스레드라 불리는 서브 루틴과 일시 중지 가능한 함수(Suspend function)를 사용하는 멀티 태스킹 기법으로, 특정 서브 루틴이 네트워크 IO 등으로 인해 일시 중지되면 이전에
+코루틴(Coroutine)은 경량형 스레드라 불리는 서브 루틴과 일시 중지 가능한 함수(Suspend function)를 사용하는 멀티 태스킹 기법으로, 특정 서브 루틴이 네트워크 IO 등으로 인해 일시 중지되면
+이전에
 중지되었던 다른 서브 루틴이 작업을 재개하는 방식으로 작동한다. 스레드에 배정된 서브 루틴들이 중지되는 것은 자기 자신이지 스레드가 아니므로 논블로킹이다.
 
 ```kotlin
@@ -125,12 +126,12 @@ suspend fun deletePostById(id: String, authentication: DefaultJwtAuthentication)
 }
 ```
 
-Coroutine은 비동기 및 논블로킹 코드를 명령형 프로그래밍 방식으로 작성할 수 있다는 장점을 가지고 있다.
+코루틴은 비동기 및 논블로킹 코드를 명령형 프로그래밍 방식으로 작성할 수 있다는 장점을 가지고 있다.
 위 코드를 보면 알겠지만 기존의 Reactor로 작성된 코드와 달리 굉장히 직관적인 코드를 가지고 있다.
 기존의 `Mono`는 `awaitSingle()` 등의 일시 중지 함수로 실제 값을 가져올 수 있으며, 예외적으로 `Flux`는 Coroutine의 `Flow`로 변환해 사용한다.
 
-Reactor와 비교해 Coroutine이 단점이라고 할 수 있는 것은 Kotlin만 사용 가능하다는 제약 및 Spring WebFlux와의 호환성 문제가 있을텐데, 이는 최근에는 Spring 측에서 적극적으로
-Coroutine을 지원하고 있어 문제는 없다고 본다.
+Reactor와 비교해 코루틴이 단점이라고 할 수 있는 것은 Kotlin만 사용 가능하다는 제약 및 Spring WebFlux와의 호환성 문제가 있을텐데, 이는 최근에는 Spring 측에서 적극적으로
+코루틴을 지원하고 있어 문제는 없다고 본다.
 
 ```kotlin
 suspend fun <T : Any> ServerRequest.awaitBody(clazz: KClass<T>): T =
@@ -149,7 +150,7 @@ suspend fun ServerRequest.awaitMultipartData(): MultiValueMap<String, Part> =
     multipartData().awaitSingle()
 ```
 
-Spring WebFlux에서 Coroutine을 지원하는 대표적인 예시로 `await` 접미사가 붙은 여러 확장 함수들이 있다.
+Spring WebFlux에서 코루틴을 지원하는 대표적인 예시로 `await` 접미사가 붙은 여러 확장 함수들이 있다.
 
 ```kotlin
 
@@ -176,7 +177,7 @@ abstract class CoWebExceptionHandler : WebExceptionHandler {
 }
 ```
 
-또한 아예 Coroutine 전용 클래스(`CoroutineCrudRepository`, `WebExceptionHandler`의 변형 `CoWebExceptionHandler` 등)도 존재한다.
+또한 아예 코루틴 전용 클래스(`CoroutineCrudRepository`, `WebExceptionHandler`의 변형 `CoWebExceptionHandler` 등)도 존재한다.
 참고로 위 `CoWebExceptionHandler`는 필자가 [Contribution](https://github.com/spring-projects/spring-framework/pull/32931)을 통해 직접
 만든 클래스로, 굉장히 최근에 추가된 것이다.
 
