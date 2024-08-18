@@ -1,5 +1,6 @@
 package com.example.reactor.javareactor.handler;
 
+import com.example.reactor.javareactor.dto.request.CreateUserRequest;
 import com.example.reactor.javareactor.dto.response.UserResponse;
 import com.example.reactor.javareactor.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -16,5 +17,13 @@ public class UserHandler {
     public Mono<ServerResponse> getUserById(ServerRequest request) {
         return ServerResponse.ok()
                              .body(userService.getUserById(request.pathVariable("id")), UserResponse.class);
+    }
+
+    public Mono<ServerResponse> createUser(ServerRequest request) {
+        return request.bodyToMono(CreateUserRequest.class)
+                      .flatMap(createUserRequest ->
+                                   ServerResponse.ok()
+                                                 .body(userService.createUser(createUserRequest), UserResponse.class)
+                      );
     }
 }
