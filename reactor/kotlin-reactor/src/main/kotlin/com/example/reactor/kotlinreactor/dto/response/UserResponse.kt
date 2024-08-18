@@ -4,6 +4,7 @@ import com.example.reactor.kotlinreactor.entity.User
 
 data class UserResponse(
     val id: String,
+    val email: String,
     val name: String
 ) {
     companion object {
@@ -11,6 +12,7 @@ data class UserResponse(
             with(user) {
                 UserResponse(
                     id = id!!,
+                    email = email,
                     name = name
                 )
             }

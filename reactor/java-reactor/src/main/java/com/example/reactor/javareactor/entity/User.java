@@ -13,10 +13,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class User {
     @Id
     private String id;
+    private String email;
+    private String password;
     private String name;
 
     @Builder
-    public User(String name) {
+    public User(String name, String email, String password) {
         this.name = name;
+        this.email = email;
+        this.password = password;
     }
 }
