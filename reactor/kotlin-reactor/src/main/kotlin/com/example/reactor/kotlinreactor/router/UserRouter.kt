@@ -14,6 +14,7 @@ class UserRouter {
         router {
             "/user".nest {
                 GET("/{id}", handler::getUserById)
+                POST("", handler::createUser)
             }
         }
 }
